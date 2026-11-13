@@ -1,102 +1,137 @@
 # Projeto Locadora
 
-Este projeto é uma aplicação simples em linguagem C para controlar uma locadora de veículos. O objetivo é permitir o cadastro de veículos, a listagem dos itens existentes, a marcação de veículos alugados e a devolução desses veículos após o uso.
+Este projeto é um sistema simples em C para gerenciar uma locadora de veículos. Ele permite cadastrar clientes e veículos, listar registros, alugar veículos por um número de dias e registrar devoluções.
 
-## Sobre o sistema
+## Funcionalidades
 
-O programa funciona em um menu interativo que oferece as seguintes opções:
+O programa oferece as seguintes opções no menu principal:
 
-1. Cadastrar veículo
-2. Listar veículos cadastrados
-3. Alugar veículo
-4. Devolver veículo
-5. Sair do sistema
+1. Cadastrar cliente
+2. Cadastrar veículo
+3. Listar clientes
+4. Listar veículos
+5. Alugar veículo
+6. Devolver veículo
+7. Sair
 
-A lógica principal está em um laço `do...while`, que continua executando até que o usuário escolha a opção 5.
+Além disso, o sistema realiza um cadastro inicial de cliente antes do menu principal e informa o valor total do aluguel calculado com base na diária do veículo.
 
-## Estrutura do código
+## Estrutura do programa
 
-O arquivo principal do projeto é o `locadora.c` e contém as seguintes partes:
+O arquivo principal é [locadora.c](locadora.c), que contém:
 
-- Definição do limite máximo de veículos com `MAX_VEICULOS`.
-- Declaração de arrays para guardar:
-  - `modelo` dos veículos
-  - `placa` dos veículos
-  - `alugado` para indicar se o veículo está disponível ou alugado
-- Variáveis de controle:
-  - `opcao` para escolher as ações do menu
-  - `quantidade` para contar quantos veículos já foram cadastrados
+- constantes para limites máximos:
+  - `MAX_VEICULOS`
+  - `MAX_CLIENTES`
+- estruturas:
+  - `Cliente` com nome e CPF
+  - `Veiculo` com modelo, placa, status de aluguel e valor da diária
+- variáveis para controlar quantidade de clientes e veículos
+- menu interativo em loop com `do...while`
 
-## Como o programa funciona
+## Como funciona
 
-### 1. Cadastro de veículos
+### Cadastro inicial de cliente
 
-Quando o usuário escolhe a opção 1, o programa verifica se ainda há espaço para cadastrar novos veículos.
+Ao iniciar o programa, o sistema já solicita automaticamente os dados do cliente inicial:
 
-- Se `quantidade >= MAX_VEICULOS`, exibe a mensagem: "Limite maximo de veiculos atingido."
-- Caso contrário, solicita:
-  - o modelo do veículo
-  - a placa do veículo
+- nome
+- CPF
 
-Depois disso, define o status de aluguel como `0` (disponível) e aumenta a quantidade de veículos cadastrados.
+Depois disso, o cliente é incluído no array de clientes e a aplicação entra no menu principal.
 
-### 2. Listagem dos veículos
+### 1. Cadastrar cliente
 
-A opção 2 percorre todos os veículos cadastrados e imprime:
+A opção 1 permite incluir novos clientes no sistema, desde que ainda haja espaço.
+
+Validações:
+
+- impede cadastro quando `quantidadeClientes >= MAX_CLIENTES`
+- exige nome e CPF
+
+### 2. Cadastrar veículo
+
+A opção 2 permite incluir novos veículos com:
 
 - modelo
 - placa
-- status do veículo
+- valor da diária
 
-O status é exibido da seguinte forma:
+O status de aluguel é inicializado como disponível (`alugado = 0`).
 
-- `Disponivel` quando `alugado[i] == 0`
-- `Indisponivel / Alugado` quando `alugado[i] != 0`
+Validações:
 
-### 3. Aluguel de veículo
+- impede cadastro quando `quantidadeVeiculos >= MAX_VEICULOS`
 
-Ao selecionar a opção 3, o programa mostra uma lista numerada com os veículos cadastrados.
+### 3. Listar clientes
 
-O usuário escolhe um número correspondente ao veículo desejado. Em seguida, o programa:
+A opção 3 exibe todos os clientes cadastrados com:
 
-- verifica se o número informado é válido
-- checa se o veículo está disponível
-- marca `alugado[escolha - 1] = 1` caso o aluguel seja realizado com sucesso
+- nome
+- CPF
 
-Se o veículo já estiver alugado, o sistema informa que ele não pode ser alugado novamente.
+### 4. Listar veículos
 
-### 4. Devolução de veículo
+A opção 4 exibe todos os veículos cadastrados com:
 
-A opção 4 funciona de maneira semelhante ao aluguel.
+- modelo
+- placa
+- valor da diária
+- status (`Disponivel` ou `Indisponivel / Alugado`)
 
-- o usuário escolhe um veículo da lista
-- o programa valida a escolha
-- se o veículo estiver alugado, ele é marcado como disponível novamente com `alugado[escolha - 1] = 0`
-- se o veículo não estiver alugado, o programa informa que a devolução não pode ser realizada
+### 5. Alugar veículo
 
-### 5. Encerramento
+A opção 5 permite alugar um veículo para um cliente.
 
-A opção 5 finaliza o programa com uma mensagem de despedida.
+Fluxo:
 
-## Regras de validação
+- verifica se existem clientes cadastrados
+- verifica se existem veículos cadastrados
+- mostra lista de clientes e veículos
+- solicita escolha do cliente e do veículo
+- valida as entradas
+- verifica se o veículo já está alugado
+- solicita a quantidade de dias de aluguel
+- calcula o valor total com:
+  - `diaria * dias`
+- marca o veículo como alugado
 
-O programa realiza verificações simples para evitar erros de uso:
+### 6. Devolver veículo
 
-- não permite cadastrar mais veículos do que o limite definido
-- impede aluguel de veículos inválidos
-- impede devolução de veículos fora do intervalo válido
-- garante que um veículo só possa ser alugado se estiver disponível
+A opção 6 permite devolver um veículo que está alugado.
+
+Fluxo:
+
+- lista os veículos cadastrados
+- valida a escolha
+- verifica se o veículo está realmente alugado
+- marca como disponível novamente
+
+### 7. Sair
+
+A opção 7 encerra o programa com mensagem de despedida.
+
+## Validações do sistema
+
+O programa inclui verificações para evitar operações inválidas, como:
+
+- limite máximo de clientes alcançado
+- limite máximo de veículos alcançado
+- cliente inexistente
+- veículo inexistente
+- veículo já alugado
+- veículo não alugado para devolução
+- quantidade de dias inválida
 
 ## Observações
 
-Este projeto é uma base inicial para estudos de programação em C e pode ser expandido com funcionalidades como:
+Este projeto é uma aplicação de estudo para praticar:
 
-- busca por veículos
-- remoção de veículos
-- cadastro de clientes
-- controle de valores de aluguel
-- persistência em arquivo
+- estruturas em C
+- arrays
+- laços de repetição
+- condicionais
+- entrada e saída de dados
+- lógica de controle de aluguel
 
-## Conclusão
-
-A aplicação demonstra o uso de estruturas básicas em C, como arrays, condicionais, laços e entrada/saída de dados, e serve como uma introdução prática ao desenvolvimento de sistemas de gerenciamento com linguagem C.
+Ele também pode ser expandido futuramente com funcionalidades como persistência em arquivo, remoção de registros e controle mais detalhado de aluguel.
