@@ -1,13 +1,15 @@
 
-#include <stdio.h> 
+#include <stdio.h>
+
+#define MAX_VEICULOS 50
 
 int main() {
 
     int opcao;
     int quantidade = 0;
-    int alugado[50] = {0};
-    char modelo[50][30];
-    char placa[50][10];
+    int alugado[MAX_VEICULOS] = {0};
+    char modelo[MAX_VEICULOS][30];
+    char placa[MAX_VEICULOS][10];
 
     do {
 
@@ -27,6 +29,11 @@ int main() {
         switch (opcao) {
 
             case 1:
+
+                if (quantidade >= MAX_VEICULOS) {
+                    printf("\nLimite maximo de veiculos atingido.\n");
+                    break;
+                }
 
                 printf("\nDigite o modelo: ");
                 scanf(" %29[^\n]", modelo[quantidade]);
