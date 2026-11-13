@@ -17,7 +17,6 @@ struct Veiculo {
 };
 
 int main() {
-
     int opcao;
     int quantidadeVeiculos = 0;
     int quantidadeClientes = 0;
@@ -29,26 +28,59 @@ int main() {
     struct Veiculo veiculos[MAX_VEICULOS];
     struct Cliente clientes[MAX_CLIENTES];
 
-    do {
+    printf("  +====================================+\n");
+    printf("  |      CADASTRO INICIAL DO CLIENTE   |\n");
+    printf("  +====================================+\n\n");
 
+    if (quantidadeClientes >= MAX_CLIENTES) {
+        printf("\nLimite maximo de clientes atingido.\n");
+        return 0;
+    }
+
+    printf("Digite o nome do cliente: ");
+    scanf(" %49[^\n]", clientes[quantidadeClientes].nome);
+
+    printf("Digite o CPF do cliente: ");
+    scanf(" %14s", clientes[quantidadeClientes].cpf);
+
+    quantidadeClientes++;
+
+    printf("\nCliente cadastrado com sucesso!\n\n");
+
+    do {
         printf("  +====================================+\n");
         printf("  |        LOCADORA DE VEICULOS        |\n");
         printf("  +====================================+\n");
-        printf("  |  1 - Cadastrar veiculo            |\n");
-        printf("  |  2 - Listar veiculos              |\n");
-        printf("  |  3 - Cadastrar cliente            |\n");
-        printf("  |  4 - Alugar veiculo               |\n");
-        printf("  |  5 - Devolver veiculo             |\n");
-        printf("  |  6 - Sair                         |\n");
+        printf("  |  1 - Cadastrar cliente            |\n");
+        printf("  |  2 - Cadastrar veiculo            |\n");
+        printf("  |  3 - Listar clientes              |\n");
+        printf("  |  4 - Listar veiculos              |\n");
+        printf("  |  5 - Alugar veiculo               |\n");
+        printf("  |  6 - Devolver veiculo             |\n");
+        printf("  |  7 - Sair                         |\n");
         printf("  +====================================+\n");
 
         printf("\nEscolha uma opcao: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
-
             case 1:
+                if (quantidadeClientes >= MAX_CLIENTES) {
+                    printf("\nLimite maximo de clientes atingido.\n");
+                    break;
+                }
 
+                printf("\nDigite o nome do cliente: ");
+                scanf(" %49[^\n]", clientes[quantidadeClientes].nome);
+
+                printf("Digite o CPF do cliente: ");
+                scanf(" %14s", clientes[quantidadeClientes].cpf);
+
+                quantidadeClientes++;
+                printf("\nCliente cadastrado com sucesso!\n");
+                break;
+
+            case 2:
                 if (quantidadeVeiculos >= MAX_VEICULOS) {
                     printf("\nLimite maximo de veiculos atingido.\n");
                     break;
@@ -65,13 +97,25 @@ int main() {
 
                 veiculos[quantidadeVeiculos].alugado = 0;
                 quantidadeVeiculos++;
-
                 printf("\nVeiculo cadastrado!\n");
-
                 break;
 
-            case 2:
+            case 3:
+                printf("\n--- CLIENTES CADASTRADOS ---\n");
 
+                if (quantidadeClientes == 0) {
+                    printf("Nenhum cliente cadastrado.\n");
+                    break;
+                }
+
+                for (int i = 0; i < quantidadeClientes; i++) {
+                    printf("\nCliente %d\n", i + 1);
+                    printf("Nome: %s\n", clientes[i].nome);
+                    printf("CPF: %s\n", clientes[i].cpf);
+                }
+                break;
+
+            case 4:
                 printf("\n--- VEICULOS CADASTRADOS ---\n");
 
                 if (quantidadeVeiculos == 0) {
@@ -90,31 +134,16 @@ int main() {
                         printf("Status: Indisponivel / Alugado\n");
                     }
                 }
-
                 break;
 
-            case 3:
-
-                if (quantidadeClientes >= MAX_CLIENTES) {
-                    printf("\nLimite maximo de clientes atingido.\n");
+            case 5:
+                if (quantidadeClientes == 0) {
+                    printf("\nCadastre um cliente antes de alugar um veiculo.\n");
                     break;
                 }
 
-                printf("\nDigite o nome do cliente: ");
-                scanf(" %49[^\n]", clientes[quantidadeClientes].nome);
-
-                printf("Digite o CPF do cliente: ");
-                scanf(" %14s", clientes[quantidadeClientes].cpf);
-
-                quantidadeClientes++;
-                printf("\nCliente cadastrado com sucesso!\n");
-
-                break;
-
-            case 4:
-
-                if (quantidadeClientes == 0) {
-                    printf("\nCadastre um cliente antes de alugar um veiculo.\n");
+                if (quantidadeVeiculos == 0) {
+                    printf("\nCadastre um veiculo antes de alugar.\n");
                     break;
                 }
 
@@ -149,9 +178,6 @@ int main() {
                     break;
                 }
 
-                veiculos[veiculoEscolhido - 1].alugado = 1;
-                printf("\nVeiculo alugado com sucesso para %s!\n", clientes[clienteEscolhido - 1].nome);
-                
                 printf("Quantos dias de aluguel? ");
                 scanf("%d", &dias);
 
@@ -163,11 +189,9 @@ int main() {
                 veiculos[veiculoEscolhido - 1].alugado = 1;
                 printf("\nVeiculo alugado com sucesso para %s!\n", clientes[clienteEscolhido - 1].nome);
                 printf("Total do aluguel: R$ %.2f\n", veiculos[veiculoEscolhido - 1].diaria * dias);
-
                 break;
 
-            case 5:
-
+            case 6:
                 printf("\nVeiculos cadastrados:\n");
                 for (int i = 0; i < quantidadeVeiculos; i++) {
                     printf("%d - %s (%s)\n", i + 1, veiculos[i].modelo, veiculos[i].placa);
@@ -188,18 +212,16 @@ int main() {
 
                 veiculos[escolha - 1].alugado = 0;
                 printf("\nVeiculo devolvido com sucesso!\n");
-
                 break;
 
-            case 6:
+            case 7:
                 printf("\nFim do programa...\nVolte Sempre!\n");
                 break;
 
             default:
                 printf("\nOpcao invalida!\n");
         }
-
-    } while (opcao != 6);
+    } while (opcao != 7);
 
     return 0;
 }
