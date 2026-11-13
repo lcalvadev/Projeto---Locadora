@@ -87,22 +87,6 @@ O programa realiza verificações simples para evitar erros de uso:
 - impede devolução de veículos fora do intervalo válido
 - garante que um veículo só possa ser alugado se estiver disponível
 
-## Como executar
-
-Para compilar o programa, use o compilador GCC:
-
-```bash
-gcc locadora.c -o locadora
-```
-
-Depois, execute:
-
-```bash
-./locadora
-```
-
-No Windows, normalmente a execução será feita com o arquivo gerado `.exe`.
-
 ## Observações
 
 Este projeto é uma base inicial para estudos de programação em C e pode ser expandido com funcionalidades como:
