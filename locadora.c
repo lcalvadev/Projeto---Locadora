@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 
 #define MAX_VEICULOS 50
@@ -17,25 +16,19 @@ struct Veiculo {
 };
 
 int main() {
-    int opcao;
-    int quantidadeVeiculos = 0;
+    struct Cliente clientes[MAX_CLIENTES];
+    struct Veiculo veiculos[MAX_VEICULOS];
     int quantidadeClientes = 0;
-    int escolha;
+    int quantidadeVeiculos = 0;
+    int opcao;
     int clienteEscolhido;
     int veiculoEscolhido;
+    int escolha;
     int dias;
-
-    struct Veiculo veiculos[MAX_VEICULOS];
-    struct Cliente clientes[MAX_CLIENTES];
 
     printf("  +====================================+\n");
     printf("  |      CADASTRO INICIAL DO CLIENTE   |\n");
     printf("  +====================================+\n\n");
-
-    if (quantidadeClientes >= MAX_CLIENTES) {
-        printf("\nLimite maximo de clientes atingido.\n");
-        return 0;
-    }
 
     printf("Digite o nome do cliente: ");
     scanf(" %49[^\n]", clientes[quantidadeClientes].nome);
@@ -44,23 +37,22 @@ int main() {
     scanf(" %14s", clientes[quantidadeClientes].cpf);
 
     quantidadeClientes++;
-
     printf("\nCliente cadastrado com sucesso!\n\n");
 
     do {
-        printf("  +====================================+\n");
-        printf("  |        LOCADORA DE VEICULOS        |\n");
-        printf("  +====================================+\n");
-        printf("  |  1 - Cadastrar cliente            |\n");
-        printf("  |  2 - Cadastrar veiculo            |\n");
-        printf("  |  3 - Listar clientes              |\n");
-        printf("  |  4 - Listar veiculos              |\n");
-        printf("  |  5 - Alugar veiculo               |\n");
-        printf("  |  6 - Devolver veiculo             |\n");
-        printf("  |  7 - Sair                         |\n");
-        printf("  +====================================+\n");
+        printf("\n========================================\n");
+        printf("          LOCADORA DE VEICULOS          \n");
+        printf("========================================\n");
+        printf("1 - Cadastrar cliente\n");
+        printf("2 - Cadastrar veiculo\n");
+        printf("3 - Listar clientes\n");
+        printf("4 - Listar veiculos\n");
+        printf("5 - Alugar veiculo\n");
+        printf("6 - Devolver veiculo\n");
+        printf("7 - Sair\n");
+        printf("========================================\n");
 
-        printf("\nEscolha uma opcao: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
@@ -102,7 +94,6 @@ int main() {
 
             case 3:
                 printf("\n--- CLIENTES CADASTRADOS ---\n");
-
                 if (quantidadeClientes == 0) {
                     printf("Nenhum cliente cadastrado.\n");
                     break;
@@ -117,7 +108,6 @@ int main() {
 
             case 4:
                 printf("\n--- VEICULOS CADASTRADOS ---\n");
-
                 if (quantidadeVeiculos == 0) {
                     printf("Nenhum veiculo cadastrado.\n");
                     break;
@@ -127,7 +117,6 @@ int main() {
                     printf("\nModelo: %s\n", veiculos[i].modelo);
                     printf("Placa: %s\n", veiculos[i].placa);
                     printf("Diaria: R$ %.2f\n", veiculos[i].diaria);
-
                     if (veiculos[i].alugado == 0) {
                         printf("Status: Disponivel\n");
                     } else {
@@ -221,6 +210,7 @@ int main() {
             default:
                 printf("\nOpcao invalida!\n");
         }
+
     } while (opcao != 7);
 
     return 0;
