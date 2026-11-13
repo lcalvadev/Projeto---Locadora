@@ -13,6 +13,7 @@ struct Veiculo {
     char modelo[30];
     char placa[10];
     int alugado;
+    float diaria;
 };
 
 int main() {
@@ -23,6 +24,7 @@ int main() {
     int escolha;
     int clienteEscolhido;
     int veiculoEscolhido;
+    int dias;
 
     struct Veiculo veiculos[MAX_VEICULOS];
     struct Cliente clientes[MAX_CLIENTES];
@@ -58,6 +60,9 @@ int main() {
                 printf("Digite a placa: ");
                 scanf(" %9s", veiculos[quantidadeVeiculos].placa);
 
+                printf("Digite o valor da diaria: R$ ");
+                scanf("%f", &veiculos[quantidadeVeiculos].diaria);
+
                 veiculos[quantidadeVeiculos].alugado = 0;
                 quantidadeVeiculos++;
 
@@ -77,6 +82,7 @@ int main() {
                 for (int i = 0; i < quantidadeVeiculos; i++) {
                     printf("\nModelo: %s\n", veiculos[i].modelo);
                     printf("Placa: %s\n", veiculos[i].placa);
+                    printf("Diaria: R$ %.2f\n", veiculos[i].diaria);
 
                     if (veiculos[i].alugado == 0) {
                         printf("Status: Disponivel\n");
@@ -145,6 +151,18 @@ int main() {
 
                 veiculos[veiculoEscolhido - 1].alugado = 1;
                 printf("\nVeiculo alugado com sucesso para %s!\n", clientes[clienteEscolhido - 1].nome);
+                
+                printf("Quantos dias de aluguel? ");
+                scanf("%d", &dias);
+
+                if (dias < 1) {
+                    printf("\nQuantidade de dias invalida!\n");
+                    break;
+                }
+
+                veiculos[veiculoEscolhido - 1].alugado = 1;
+                printf("\nVeiculo alugado com sucesso para %s!\n", clientes[clienteEscolhido - 1].nome);
+                printf("Total do aluguel: R$ %.2f\n", veiculos[veiculoEscolhido - 1].diaria * dias);
 
                 break;
 
